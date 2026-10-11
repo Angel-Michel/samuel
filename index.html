@@ -175,3 +175,326 @@ function resize() {
     c.width = c.parentElement.clientWidth * 2; 
     c.height = c.parentElement.clientHeight * 2; 
   });
+  drawStaticBackground();
+}
+
+function drawStaticBackground() {
+  const w = bg.width, h = bg.height;
+  bCtx.clearRect(0, 0, w, h);
+  
+  // Cielo nocturno estrellado
+  let grad = bCtx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, '#050a15'); 
+  grad.addColorStop(0.5, '#0f1b2e'); 
+  grad.addColorStop(0.8, '#1a2c42');
+  bCtx.fillStyle = grad; bCtx.fillRect(0, 0, w, h);
+
+  // Estrellas de fondo
+  stars.forEach(s => {
+    bCtx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+    bCtx.beginPath(); bCtx.arc(s.x * w, s.y * h, s.size, 0, Math.PI*2); bCtx.fill();
+  });
+
+  // Luna realista
+  bCtx.shadowColor = 'rgba(200, 220, 255, 0.4)'; bCtx.shadowBlur = 40; 
+  bCtx.fillStyle = '#f0f4f8';
+  bCtx.beginPath(); bCtx.arc(w * 0.85, h * 0.25, 45, 0, Math.PI * 2); bCtx.fill();
+  bCtx.shadowBlur = 0;
+  
+  // Cráteres de la luna
+  bCtx.fillStyle = 'rgba(0,0,0,0.08)';
+  bCtx.beginPath(); bCtx.arc(w * 0.83, h * 0.23, 8, 0, Math.PI*2); bCtx.fill();
+  bCtx.beginPath(); bCtx.arc(w * 0.87, h * 0.27, 12, 0, Math.PI*2); bCtx.fill();
+  bCtx.beginPath(); bCtx.arc(w * 0.82, h * 0.28, 5, 0, Math.PI*2); bCtx.fill();
+
+  // Prado / Colinas nocturnas
+  bCtx.fillStyle = '#081016';
+  bCtx.beginPath();
+  bCtx.moveTo(0, h * 0.75);
+  bCtx.quadraticCurveTo(w * 0.25, h * 0.65, w * 0.6, h * 0.78);
+  bCtx.quadraticCurveTo(w * 0.8, h * 0.85, w, h * 0.7);
+  bCtx.lineTo(w, h); bCtx.lineTo(0, h); bCtx.fill();
+
+  bCtx.fillStyle = '#0b1620';
+  bCtx.beginPath();
+  bCtx.moveTo(0, h * 0.85);
+  bCtx.quadraticCurveTo(w * 0.4, h * 0.75, w, h * 0.88);
+  bCtx.lineTo(w, h); bCtx.lineTo(0, h); bCtx.fill();
+}
+
+// Dibujo realista del gato
+function drawCatRealistic(ctx, x, y, time) {
+  ctx.save();
+  ctx.translate(x, y);
+  
+  let scale = 1.3; // Tamaño del gato
+  ctx.scale(scale, scale);
+  
+  // Animación de respiración suave
+  let breath = Math.sin(time * 0.03) * 1.5; 
+  
+  const furMain = '#6b7a8a';
+  const furDark = '#485664';
+  const furLight = '#9caebf';
+  
+  // Sombra en el suelo
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.beginPath(); ctx.ellipse(5, 5, 45, 12, 0, 0, Math.PI*2); ctx.fill();
+
+  // Cola animada (curva suave)
+  ctx.save();
+  let tailMove = Math.sin(time * 0.02) * 0.15;
+  ctx.translate(-25, -10);
+  ctx.rotate(tailMove);
+  ctx.lineWidth = 14; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.strokeStyle = furDark;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(-30, 20, -50, -30, -35, -45);
+  ctx.stroke();
+  ctx.restore();
+
+  // Pata trasera (muslo)
+  ctx.fillStyle = furDark;
+  ctx.beginPath();
+  ctx.ellipse(-15, -15 - breath*0.5, 20, 25, -Math.PI/6, 0, Math.PI*2);
+  ctx.fill();
+
+  // Cuerpo principal (anatomía más fluida)
+  ctx.fillStyle = furMain;
+  ctx.beginPath();
+  ctx.moveTo(15, -60 - breath); // Cuello
+  ctx.bezierCurveTo(30, -40 - breath, 25, 0, 20, 0); // Pecho a pata delantera
+  ctx.lineTo(0, 0); // Base frontal
+  ctx.bezierCurveTo(-20, 0, -35, -10, -35, -30 - breath); // Lomo inferior
+  ctx.bezierCurveTo(-35, -50 - breath, -10, -70 - breath, 5, -65 - breath); // Espalda a nuca
+  ctx.fill();
+
+  // Pecho y vientre más claro
+  ctx.fillStyle = furLight;
+  ctx.beginPath();
+  ctx.moveTo(15, -60 - breath);
+  ctx.bezierCurveTo(22, -40 - breath, 15, -10, 5, 0);
+  ctx.lineTo(-5, 0);
+  ctx.bezierCurveTo(5, -20, 10, -40 - breath, 5, -60 - breath);
+  ctx.fill();
+
+  // Pata delantera
+  ctx.fillStyle = furMain;
+  ctx.beginPath();
+  ctx.moveTo(15, -30 - breath);
+  ctx.lineTo(22, 0); ctx.lineTo(12, 5); ctx.lineTo(8, -25 - breath);
+  ctx.fill();
+  
+  // Dedos pata
+  ctx.strokeStyle = furDark; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(15, 5); ctx.lineTo(14, 0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(19, 4); ctx.lineTo(18, 0); ctx.stroke();
+
+  // Cabeza realista (perfil 3/4)
+  ctx.save();
+  ctx.translate(5, -65 - breath);
+  
+  // Forma de la cabeza
+  ctx.fillStyle = furMain;
+  ctx.beginPath();
+  ctx.moveTo(0, 15); // Cuello base
+  ctx.bezierCurveTo(25, 10, 22, -15, 15, -20); // Frente y hocico
+  ctx.bezierCurveTo(5, -25, -10, -20, -15, -5); // Cráneo superior
+  ctx.bezierCurveTo(-15, 10, -10, 15, 0, 15); // Mandíbula
+  ctx.fill();
+
+  // Orejas triangulares con profundidad
+  // Oreja izquierda (atrás)
+  ctx.fillStyle = furDark;
+  ctx.beginPath(); ctx.moveTo(-8, -18); ctx.lineTo(-12, -35); ctx.lineTo(2, -22); ctx.fill();
+  // Oreja derecha (frente)
+  ctx.fillStyle = furMain;
+  ctx.beginPath(); ctx.moveTo(-2, -20); ctx.lineTo(8, -38); ctx.lineTo(14, -18); ctx.fill();
+  ctx.fillStyle = '#dcb6c0'; // Interior oreja rosado pálido
+  ctx.beginPath(); ctx.moveTo(2, -20); ctx.lineTo(8, -32); ctx.lineTo(11, -19); ctx.fill();
+
+  // Hocico
+  ctx.fillStyle = furLight;
+  ctx.beginPath(); ctx.ellipse(15, -5, 8, 6, Math.PI/8, 0, Math.PI*2); ctx.fill();
+
+  // Nariz realista
+  ctx.fillStyle = '#4a2c31';
+  ctx.beginPath(); ctx.moveTo(21, -6); ctx.lineTo(24, -4); ctx.lineTo(22, -2); ctx.fill();
+
+  // Ojo realista (forma almendrada)
+  let blink = (time % 200 < 5) ? 0.1 : 1;
+  ctx.save();
+  ctx.translate(10, -10);
+  ctx.scale(1, blink);
+  
+  ctx.fillStyle = '#d4e157'; // Verde amarillento
+  ctx.beginPath();
+  ctx.moveTo(-4, 0); ctx.quadraticCurveTo(0, -4, 4, -1);
+  ctx.quadraticCurveTo(0, 2, -4, 0); ctx.fill();
+  
+  ctx.fillStyle = '#111'; // Pupila vertical
+  ctx.beginPath(); ctx.ellipse(0.5, -0.5, 1, 2.5, Math.PI/10, 0, Math.PI*2); ctx.fill();
+  
+  ctx.fillStyle = '#fff'; // Brillo
+  ctx.beginPath(); ctx.arc(-1, -1.5, 0.8, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  // Boca sutil
+  ctx.strokeStyle = furDark; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(22, -2); ctx.quadraticCurveTo(18, 2, 15, 1); ctx.stroke();
+
+  // Bigotes finos
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(18, -3); ctx.quadraticCurveTo(30, -5, 38, -2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(18, -1); ctx.quadraticCurveTo(32, 2, 35, 6); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(16, 0); ctx.quadraticCurveTo(28, 8, 30, 12); ctx.stroke();
+
+  ctx.restore();
+
+  // Collar amarillo
+  ctx.strokeStyle = '#f1c40f'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(2, -55 - breath); ctx.quadraticCurveTo(12, -48 - breath, 22, -53 - breath); ctx.stroke();
+  
+  // Plaquita
+  ctx.fillStyle = '#e67e22'; 
+  ctx.beginPath(); ctx.arc(14, -48 - breath, 4, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#f39c12';
+  ctx.beginPath(); ctx.arc(14, -48 - breath, 2.5, 0, Math.PI*2); ctx.fill();
+
+  ctx.restore();
+}
+
+// Constelación de la palabra "SAMUEL"
+// Coordenadas relativas (0 a 1) para escalar al canvas
+const constellationPoints = [
+  // S
+  {x:0.12, y:0.3}, {x:0.07, y:0.3}, {x:0.07, y:0.4}, {x:0.12, y:0.4}, {x:0.12, y:0.5}, {x:0.07, y:0.5},
+  // A
+  {x:0.17, y:0.5}, {x:0.20, y:0.3}, {x:0.23, y:0.5}, {x:0.185, y:0.42}, {x:0.215, y:0.42},
+  // M
+  {x:0.28, y:0.5}, {x:0.28, y:0.3}, {x:0.32, y:0.4}, {x:0.36, y:0.3}, {x:0.36, y:0.5},
+  // U
+  {x:0.42, y:0.3}, {x:0.42, y:0.45}, {x:0.44, y:0.5}, {x:0.46, y:0.5}, {x:0.48, y:0.45}, {x:0.48, y:0.3},
+  // E
+  {x:0.58, y:0.3}, {x:0.53, y:0.3}, {x:0.53, y:0.4}, {x:0.57, y:0.4}, {x:0.53, y:0.4}, {x:0.53, y:0.5}, {x:0.58, y:0.5},
+  // L
+  {x:0.63, y:0.3}, {x:0.63, y:0.5}, {x:0.68, y:0.5}
+];
+
+// Organizar en trazos continuos para animar líneas
+const strokes = [
+  [0,1,2,3,4,5], // S
+  [6,7,8], [9,10], // A
+  [11,12,13,14,15], // M
+  [16,17,18,19,20,21], // U
+  [22,23,24,25,26,27,28], // E
+  [29,30,31] // L
+];
+
+let anim = null;
+let currentStroke = 0;
+let currentSegment = 0;
+let segmentProgress = 0;
+let timeFrame = 0;
+let letterTimeout = null;
+
+function drawStarPoint(ctx, x, y, glow) {
+  ctx.shadowColor = '#fff';
+  ctx.shadowBlur = glow ? 15 : 5;
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(x, y, glow ? 3 : 1.5, 0, Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0;
+}
+
+function start() {
+  cancelAnimationFrame(anim);
+  clearTimeout(letterTimeout);
+  letterOverlay.classList.remove('show');
+  currentStroke = 0; currentSegment = 0; segmentProgress = 0; timeFrame = 0;
+  pCtx.clearRect(0, 0, paint.width, paint.height);
+  drawStaticBackground();
+  
+  // Dibujar estrellas base de la constelación tenuemente
+  const w = paint.width, h = paint.height;
+  constellationPoints.forEach(p => {
+    pCtx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    pCtx.beginPath(); pCtx.arc(p.x * w, p.y * h, 1, 0, Math.PI*2); pCtx.fill();
+  });
+  
+  (function loop() {
+    timeFrame++;
+    fCtx.clearRect(0, 0, fg.width, fg.height);
+    
+    // Gato en la colina derecha
+    drawCatRealistic(fCtx, fg.width * 0.8, fg.height * 0.72, timeFrame);
+
+    // Animación de la constelación
+    if (currentStroke < strokes.length) {
+      let strokeArr = strokes[currentStroke];
+      
+      if (currentSegment < strokeArr.length - 1) {
+        let p1 = constellationPoints[strokeArr[currentSegment]];
+        let p2 = constellationPoints[strokeArr[currentSegment + 1]];
+        
+        let startX = p1.x * w, startY = p1.y * h;
+        let endX = p2.x * w, endY = p2.y * h;
+        
+        let currentX = startX + (endX - startX) * segmentProgress;
+        let currentY = startY + (endY - startY) * segmentProgress;
+        
+        // Dibujar línea estelar
+        pCtx.strokeStyle = 'rgba(179, 229, 255, 0.8)';
+        pCtx.lineWidth = 1.5;
+        pCtx.beginPath();
+        pCtx.moveTo(startX, startY);
+        pCtx.lineTo(currentX, currentY);
+        pCtx.stroke();
+        
+        // Puntos y destello actual
+        drawStarPoint(fCtx, startX, startY, false);
+        drawStarPoint(fCtx, currentX, currentY, true); // Estrella viajera en fg
+        
+        segmentProgress += 0.04;
+        
+        if (segmentProgress >= 1) {
+          drawStarPoint(pCtx, endX, endY, true); // Dejar estrella fija en paint
+          segmentProgress = 0;
+          currentSegment++;
+        }
+      } else {
+        currentStroke++;
+        currentSegment = 0;
+      }
+      anim = requestAnimationFrame(loop);
+    } else {
+      // Brillo intermitente final en estrellas
+      if(timeFrame % 60 < 30) {
+        constellationPoints.forEach(p => {
+          if(Math.random() > 0.8) drawStarPoint(fCtx, p.x * w, p.y * h, true);
+        });
+      }
+      
+      if(!letterOverlay.classList.contains('show')) {
+        letterTimeout = setTimeout(() => { letterOverlay.classList.add('show'); }, 1500);
+      }
+      anim = requestAnimationFrame(loop); 
+    }
+  })();
+}
+
+function closeLetter() { letterOverlay.classList.remove('show'); }
+
+function clearCanv() {
+  cancelAnimationFrame(anim); clearTimeout(letterTimeout);
+  letterOverlay.classList.remove('show');
+  pCtx.clearRect(0, 0, paint.width, paint.height);
+  fCtx.clearRect(0, 0, fg.width, fg.height);
+  drawStaticBackground();
+}
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html> 
