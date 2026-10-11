@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Homenaje a Samuel</title>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<title>Constelación de Samuel</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   body {
     margin: 0;
-    background: #fdfbf7;
+    background: #0b0f19;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    font-family: 'Caveat', cursive;
-    color: #5d4037;
+    font-family: 'Playfair Display', serif;
+    color: #e2e8f0;
     overflow: hidden;
   }
   h3 {
-    font-size: 2.5rem;
-    letter-spacing: 2px;
-    color: #e68a00;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+    color: #b3c5e5;
+    margin-bottom: 15px;
+    font-weight: 400;
+    text-shadow: 0 0 10px rgba(179, 197, 229, 0.4);
     text-align: center;
     z-index: 10;
   }
@@ -33,11 +33,11 @@
     width: 95vw;
     max-width: 900px;
     aspect-ratio: 16/9;
-    background: #fff;
-    border: 4px solid #d7ccc8;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: #000;
+    border: 1px solid #2a3b5c;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(74, 144, 226, 0.2);
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 8px;
   }
   canvas {
     position: absolute;
@@ -47,84 +47,94 @@
     height: 100%;
   }
   .controls {
-    margin-top: 15px;
+    margin-top: 20px;
     display: flex;
-    gap: 15px;
+    gap: 20px;
     z-index: 10;
   }
   button {
-    background: #fff;
-    color: #e68a00;
-    border: 2px solid #ffb347;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-family: 'Caveat', cursive;
-    font-size: 1.5rem;
-    font-weight: bold;
+    background: transparent;
+    color: #b3c5e5;
+    border: 1px solid #4a90e2;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    backdrop-filter: blur(5px);
   }
   button:hover {
-    background: #ffb347;
+    background: rgba(74, 144, 226, 0.15);
     color: #fff;
-    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
   }
 
   #letter-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(11, 15, 25, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden; 
-    transition: opacity 2s ease-in-out, visibility 2s;
+    transition: opacity 1.5s ease-in-out, visibility 1.5s;
     z-index: 20;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(4px);
   }
   #letter-overlay.show {
     opacity: 1;
     visibility: visible;
   }
   .letter-content {
-    background: #fff9f0; 
-    border: 2px solid #ffcc80;
-    border-radius: 15px;
-    padding: 40px;
-    max-width: 80%;
+    background: linear-gradient(135deg, #162238 0%, #0b101a 100%);
+    border: 1px solid #4a90e2;
+    border-radius: 8px;
+    padding: 45px;
+    max-width: 75%;
     text-align: center;
-    box-shadow: 0 10px 40px rgba(230, 138, 0, 0.2);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .letter-content::before {
+    content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px dashed rgba(114, 163, 222, 0.3); pointer-events: none;
   }
   .letter-content .greeting {
-    font-size: 2.2rem;
-    color: #d84315; 
-    margin-bottom: 15px;
-    font-weight: bold;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #e2e8f0; 
+    margin-bottom: 20px;
     text-align: left;
   }
   .letter-content p {
-    color: #5d4037; 
-    font-size: 1.8rem;
-    line-height: 1.4;
+    font-family: 'Playfair Display', serif;
+    color: #a0aec0; 
+    font-size: 1.3rem;
+    line-height: 1.8;
     margin: 15px 0;
+    font-style: italic;
   }
   .letter-content .signature {
-    font-size: 2rem;
-    color: #d84315; 
-    margin-top: 25px;
-    font-weight: bold;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    color: #e2e8f0; 
+    margin-top: 30px;
     text-align: right;
   }
   .close-btn {
-    margin-top: 20px;
-    font-size: 1.3rem;
+    margin-top: 25px;
+    font-size: 1rem;
+    border-color: #a0aec0;
+    color: #a0aec0;
   }
+  .close-btn:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff;}
 </style>
 </head>
 <body>
-<h3>SIEMPRE EN MI CORAZÓN</h3>
+<h3>UN BRILLO ETERNO</h3>
 <div id="wall">
   <canvas id="bg"></canvas>
   <canvas id="paint"></canvas>
@@ -132,18 +142,18 @@
   
   <div id="letter-overlay">
     <div class="letter-content">
-      <div class="greeting">Kelly,</div>
-      <p>"Gracias por haberme elegido y por darme la mejor vida que un michi pudo soñar."</p>
-      <p>"Fui muy feliz a tu lado, por tus caricias, tus cuidados y todo tu amor. No estés triste, ahora juego en un jardín de luz y siempre dejaré huellas doradas en tu corazón."</p>
-      <div class="signature">Atte. Samuel 🐾</div>
+      <div class="greeting">Para mi humana favorita,</div>
+      <p>Aunque mis patitas ya no caminen por la casa, mi ronroneo seguirá vibrando en cada recuerdo hermoso que compartimos.</p>
+      <p>Gracias por darme un hogar lleno de luz. Ahora búscame en las noches despejadas; seré la estrella más brillante, cuidándote desde el cielo porque el amor que nos tuvimos es infinito.</p>
+      <div class="signature">Con cariño, Samuel 🐾</div>
       <button class="close-btn" onclick="closeLetter()">Cerrar</button>
     </div>
   </div>
 </div>
 
 <div class="controls">
-  <button onclick="start()">▶ DIBUJAR</button>
-  <button onclick="clearCanv()">↺ BORRAR</button>
+  <button onclick="start()">✨ ILUMINAR CIELO</button>
+  <button onclick="clearCanv()">↺ REINICIAR</button>
 </div>
 
 <script>
@@ -152,273 +162,16 @@ const paint = document.getElementById('paint'), pCtx = paint.getContext('2d');
 const fg = document.getElementById('fg'), fCtx = fg.getContext('2d');
 const letterOverlay = document.getElementById('letter-overlay');
 
+let stars = [];
+for(let i=0; i<150; i++) {
+  stars.push({
+    x: Math.random(), y: Math.random() * 0.7, 
+    size: Math.random() * 1.5, alpha: Math.random()
+  });
+}
+
 function resize() {
   [bg, paint, fg].forEach(c => { 
     c.width = c.parentElement.clientWidth * 2; 
     c.height = c.parentElement.clientHeight * 2; 
   });
-  drawStaticBackground();
-}
-
-let birds = [
-  {x: 800, y: 150, speed: 0.8, size: 8, wing: 0},
-  {x: 400, y: 100, speed: 1.2, size: 6, wing: 1.5}
-]; 
-
-function drawStaticBackground() {
-  const w = bg.width, h = bg.height;
-  bCtx.clearRect(0, 0, w, h);
-  
-  // Cielo atardecer
-  let grad = bCtx.createLinearGradient(0, 0, 0, h * 0.7);
-  grad.addColorStop(0, '#87CEFA'); grad.addColorStop(0.5, '#FFDAB9'); grad.addColorStop(1, '#FFB6C1');
-  bCtx.fillStyle = grad; bCtx.fillRect(0, 0, w, h);
-
-  // Sol
-  bCtx.save();
-  bCtx.shadowColor = 'rgba(255, 200, 100, 0.8)'; bCtx.shadowBlur = 50; 
-  bCtx.fillStyle = '#FFF5EE';
-  bCtx.beginPath(); bCtx.arc(w * 0.85, h * 0.35, 60, 0, Math.PI * 2); bCtx.fill();
-  bCtx.restore();
-
-  // Nubes suaves
-  bCtx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-  bCtx.beginPath(); bCtx.arc(w * 0.2, h * 0.2, 40, 0, Math.PI * 2); 
-  bCtx.arc(w * 0.25, h * 0.18, 50, 0, Math.PI * 2); 
-  bCtx.arc(w * 0.3, h * 0.22, 35, 0, Math.PI * 2); bCtx.fill();
-
-  // Muro
-  bCtx.fillStyle = '#e8d5c4'; bCtx.fillRect(0, h * 0.6, w, h * 0.4);
-  bCtx.strokeStyle = '#d7c2ae'; bCtx.lineWidth = 3;
-  let rowH = 50, colW = 100;
-  for(let y = h * 0.6; y < h; y += rowH) { bCtx.beginPath(); bCtx.moveTo(0, y); bCtx.lineTo(w, y); bCtx.stroke(); }
-  let offset = 0;
-  for(let y = h * 0.6; y < h; y += rowH) {
-    offset = (offset === 0) ? colW / 2 : 0;
-    for(let x = offset; x < w; x += colW) { bCtx.beginPath(); bCtx.moveTo(x, y); bCtx.lineTo(x, y + rowH); bCtx.stroke(); }
-  }
-}
-
-function drawSamuelAnimated(ctx, x, y, time) {
-  ctx.save();
-  ctx.translate(x, y);
-  
-  let baseScale = 7; 
-  let breathY = Math.sin(time * 0.05) * 0.02; 
-  ctx.scale(baseScale, baseScale + breathY);
-  
-  // Sombra suave
-  ctx.fillStyle = 'rgba(0,0,0,0.15)';
-  ctx.beginPath(); ctx.ellipse(0, 5, 22, 5, 0, 0, Math.PI*2); ctx.fill();
-  
-  // Cola
-  let tailAngle = Math.sin(time * 0.03) * 0.15;
-  ctx.save();
-  ctx.translate(-14, -5); 
-  ctx.rotate(tailAngle);
-  ctx.lineWidth = 3; ctx.strokeStyle = '#8c95a1'; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-15, 15, -20, -10); ctx.stroke();
-  ctx.restore();
-  
-  // Cuerpo
-  ctx.fillStyle = '#a0aab5'; 
-  ctx.beginPath();
-  ctx.moveTo(12, 0); 
-  ctx.bezierCurveTo(12, -20, 5, -35, 0, -40); 
-  ctx.bezierCurveTo(-10, -35, -18, -20, -16, 0); 
-  ctx.fill();
-
-  // Pecho más claro
-  ctx.fillStyle = '#cfd6dd';
-  ctx.beginPath();
-  ctx.moveTo(8, 0);
-  ctx.bezierCurveTo(8, -15, 3, -35, -2, -38);
-  ctx.bezierCurveTo(-6, -30, -10, -15, -8, 0);
-  ctx.fill();
-  
-  // Cabeza
-  ctx.translate(-2, -42); 
-  ctx.fillStyle = '#a0aab5'; 
-  ctx.beginPath(); 
-  ctx.moveTo(0, -12);
-  ctx.quadraticCurveTo(15, -12, 14, 0); 
-  ctx.lineTo(16, 2); 
-  ctx.lineTo(12, 5);
-  ctx.quadraticCurveTo(0, 15, -12, 5); 
-  ctx.lineTo(-16, 2); 
-  ctx.lineTo(-14, 0);
-  ctx.quadraticCurveTo(-15, -12, 0, -12); 
-  ctx.fill();
-  
-  // Orejas
-  ctx.beginPath(); ctx.moveTo(-8, -10); ctx.lineTo(-12, -20); ctx.lineTo(-2, -12); ctx.fill();
-  ctx.fillStyle = '#e8d4d8'; ctx.beginPath(); ctx.moveTo(-7, -11); ctx.lineTo(-10, -17); ctx.lineTo(-4, -12); ctx.fill(); // interior oreja
-  ctx.fillStyle = '#a0aab5'; 
-  ctx.beginPath(); ctx.moveTo(8, -10); ctx.lineTo(12, -20); ctx.lineTo(2, -12); ctx.fill();
-  ctx.fillStyle = '#e8d4d8'; ctx.beginPath(); ctx.moveTo(7, -11); ctx.lineTo(10, -17); ctx.lineTo(4, -12); ctx.fill(); // interior oreja
-  
-  // Collar
-  ctx.strokeStyle = '#e65c00'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(-9, 8); ctx.quadraticCurveTo(0, 12, 9, 8); ctx.stroke();
-  ctx.fillStyle = '#ffb300'; ctx.beginPath(); ctx.arc(0, 10, 2.5, 0, Math.PI*2); ctx.fill();
-
-  // Ojos (estilo más tierno y normal)
-  let blink = (time % 180 < 6) ? 0.1 : 1; 
-  ctx.save();
-  ctx.scale(1, blink);
-  
-  ctx.fillStyle = '#fff'; 
-  ctx.beginPath(); ctx.ellipse(-5, -2, 3.5, 4.5, 0, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(5, -2, 3.5, 4.5, 0, 0, Math.PI*2); ctx.fill();
-  
-  ctx.fillStyle = '#8bc34a'; // Iris verde
-  ctx.beginPath(); ctx.arc(-4.5, -2, 2.5, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(4.5, -2, 2.5, 0, Math.PI*2); ctx.fill();
-
-  ctx.fillStyle = '#222'; // Pupila
-  ctx.beginPath(); ctx.ellipse(-4.5, -2, 1, 1.8, 0, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(4.5, -2, 1, 1.8, 0, 0, Math.PI*2); ctx.fill();
-  
-  ctx.fillStyle = '#fff'; // Brillo
-  ctx.beginPath(); ctx.arc(-5.5, -3, 0.8, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(3.5, -3, 0.8, 0, Math.PI*2); ctx.fill();
-  ctx.restore();
-
-  // Nariz rosada
-  ctx.fillStyle = '#ff8a80';
-  ctx.beginPath();
-  ctx.moveTo(-1.5, 2);
-  ctx.lineTo(2.5, 2);
-  ctx.lineTo(0.5, 4);
-  ctx.fill();
-
-  // Boca
-  ctx.strokeStyle = '#5d4037';
-  ctx.lineWidth = 0.6;
-  ctx.beginPath();
-  ctx.moveTo(0.5, 4);
-  ctx.lineTo(0.5, 5.5); 
-  ctx.quadraticCurveTo(-2, 7, -3.5, 5.5); 
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.moveTo(0.5, 5.5);
-  ctx.quadraticCurveTo(3, 7, 4.5, 5.5); 
-  ctx.stroke();
-  
-  ctx.restore();
-}
-
-function drawMagicSpark(ctx, targetX, targetY) {
-  ctx.save();
-  ctx.translate(targetX, targetY);
-  ctx.shadowColor = '#ffeb3b';
-  ctx.shadowBlur = 15;
-  ctx.fillStyle = '#fff';
-  ctx.beginPath();
-  ctx.arc(0, 0, 4, 0, Math.PI * 2);
-  ctx.fill();
-  
-  ctx.strokeStyle = 'rgba(255, 235, 59, 0.8)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(-10, 0); ctx.lineTo(10, 0);
-  ctx.moveTo(0, -10); ctx.lineTo(0, 10);
-  ctx.stroke();
-  ctx.restore();
-}
-
-const letterGroups = [
-  [{x:0.13, y:0.68, ex:0.04, ey:0.68, width:18}, {x:0.04, y:0.68, ex:0.04, ey:0.77, width:18}, {x:0.04, y:0.77, ex:0.13, ey:0.77, width:18}, {x:0.13, y:0.77, ex:0.13, ey:0.87, width:18}, {x:0.13, y:0.87, ex:0.04, ey:0.87, width:18}],
-  [{x:0.23, y:0.68, ex:0.17, ey:0.87, width:18}, {x:0.23, y:0.68, ex:0.29, ey:0.87, width:18}, {x:0.19, y:0.79, ex:0.27, ey:0.79, width:15}],
-  [{x:0.33, y:0.87, ex:0.33, ey:0.68, width:18}, {x:0.33, y:0.68, ex:0.40, ey:0.80, width:16}, {x:0.40, y:0.80, ex:0.47, ey:0.68, width:16}, {x:0.47, y:0.68, ex:0.47, ey:0.87, width:18}],
-  [{x:0.51, y:0.68, ex:0.51, ey:0.87, width:18}, {x:0.51, y:0.87, ex:0.61, ey:0.87, width:18}, {x:0.61, y:0.87, ex:0.61, ey:0.68, width:18}],
-  [{x:0.65, y:0.68, ex:0.65, ey:0.87, width:18}, {x:0.65, y:0.68, ex:0.74, ey:0.68, width:16}, {x:0.65, y:0.77, ex:0.72, ey:0.77, width:15}, {x:0.65, y:0.87, ex:0.74, ey:0.87, width:16}],
-  [{x:0.78, y:0.68, ex:0.78, ey:0.87, width:18}, {x:0.78, y:0.87, ex:0.87, ey:0.87, width:16}]
-];
-
-const allStrokes = [];
-letterGroups.forEach((group, gIndex) => { group.forEach(stroke => { allStrokes.push({ ...stroke, groupIndex: gIndex }); }); });
-
-function magicDust(x, y, radius, count) {
-  for(let i = 0; i < count; i++) {
-    let a = Math.random() * Math.PI * 2; let d = (Math.random() * Math.random()) * radius; 
-    let color = Math.random() > 0.5 ? '#ffeb3b' : '#fff';
-    pCtx.fillStyle = color;
-    pCtx.globalAlpha = 0.8; 
-    pCtx.beginPath();
-    pCtx.arc(x + Math.cos(a) * d, y + Math.sin(a) * d, Math.random() * 2 + 1, 0, Math.PI*2);
-    pCtx.fill();
-  }
-  pCtx.globalAlpha = 1;
-}
-
-let anim = null;
-let currentStrokeIdx = 0;
-let currentT = 0;
-let timeFrame = 0;
-let letterTimeout = null;
-
-function start() {
-  cancelAnimationFrame(anim);
-  clearTimeout(letterTimeout);
-  letterOverlay.classList.remove('show');
-  currentStrokeIdx = 0; currentT = 0; timeFrame = 0;
-  pCtx.clearRect(0, 0, paint.width, paint.height);
-  drawStaticBackground();
-  
-  (function loop() {
-    timeFrame++;
-    fCtx.clearRect(0, 0, fg.width, fg.height);
-    
-    // Aves
-    birds.forEach(b => {
-      b.x -= b.speed; if(b.x < -50) b.x = bg.width + 50;
-      b.wing += 0.15; let wo = Math.sin(b.wing) * b.size;
-      fCtx.strokeStyle = 'rgba(100, 80, 70, 0.6)'; fCtx.lineWidth = 2;
-      fCtx.beginPath();
-      fCtx.moveTo(b.x, b.y); fCtx.quadraticCurveTo(b.x + b.size, b.y - wo, b.x + b.size*2, b.y - wo*0.5);
-      fCtx.moveTo(b.x, b.y); fCtx.quadraticCurveTo(b.x - b.size, b.y - wo, b.x - b.size*2, b.y - wo*0.5);
-      fCtx.stroke();
-    });
-
-    drawSamuelAnimated(fCtx, fg.width * 0.75, fg.height * 0.57, timeFrame);
-
-    if (currentStrokeIdx < allStrokes.length) {
-      let st = allStrokes[currentStrokeIdx];
-      let x = (st.x + (st.ex - st.x) * currentT) * paint.width;
-      let y = (st.y + (st.ey - st.y) * currentT) * paint.height;
-      let r = st.width;
-      
-      magicDust(x, y, r, 6);
-      
-      currentT += 0.025;
-      
-      drawMagicSpark(fCtx, x, y);
-      
-      if (currentT > 1) { currentT = 0; currentStrokeIdx++; }
-      anim = requestAnimationFrame(loop);
-    } else {
-      if(!letterOverlay.classList.contains('show')) {
-        letterTimeout = setTimeout(() => { letterOverlay.classList.add('show'); }, 1500);
-      }
-      anim = requestAnimationFrame(loop); 
-    }
-  })();
-}
-
-function closeLetter() { letterOverlay.classList.remove('show'); }
-
-function clearCanv() {
-  cancelAnimationFrame(anim); clearTimeout(letterTimeout);
-  letterOverlay.classList.remove('show');
-  pCtx.clearRect(0, 0, paint.width, paint.height);
-  fCtx.clearRect(0, 0, fg.width, fg.height);
-  drawStaticBackground();
-}
-
-window.addEventListener('resize', resize);
-resize();
-</script>
-</body>
-</html>
