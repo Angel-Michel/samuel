@@ -3,28 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Constelación de Samuel</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<title>Homenaje a Samuel</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 <style>
   body {
     margin: 0;
-    background: #0b0f19;
+    padding-bottom: 20px; /* Espacio extra abajo para que los botones se vean */
+    background: #fdfbf7;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    font-family: 'Playfair Display', serif;
-    color: #e2e8f0;
+    font-family: 'Caveat', cursive;
+    color: #5d4037;
     overflow: hidden;
   }
   h3 {
     font-size: 2.2rem;
-    letter-spacing: 3px;
-    color: #b3c5e5;
+    letter-spacing: 2px;
+    color: #e68a00;
+    margin-top: 10px;
     margin-bottom: 15px;
-    font-weight: 400;
-    text-shadow: 0 0 10px rgba(179, 197, 229, 0.4);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-weight: 700;
     text-align: center;
     z-index: 10;
   }
@@ -32,12 +34,13 @@
     position: relative;
     width: 95vw;
     max-width: 900px;
-    aspect-ratio: 16/9;
-    background: #000;
-    border: 1px solid #2a3b5c;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(74, 144, 226, 0.2);
+    height: 65vh; /* Limitamos la altura para que no empuje los botones */
+    max-height: 600px;
+    background: #fff;
+    border: 4px solid #d7ccc8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 12px;
   }
   canvas {
     position: absolute;
@@ -49,92 +52,84 @@
   .controls {
     margin-top: 20px;
     display: flex;
-    gap: 20px;
+    gap: 15px;
     z-index: 10;
   }
   button {
-    background: transparent;
-    color: #b3c5e5;
-    border: 1px solid #4a90e2;
+    background: #fff;
+    color: #e68a00;
+    border: 2px solid #ffb347;
     padding: 10px 25px;
-    border-radius: 30px;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
+    border-radius: 25px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
   button:hover {
-    background: rgba(74, 144, 226, 0.15);
+    background: #ffb347;
     color: #fff;
-    box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
+    transform: translateY(-2px);
   }
 
+  /* CARTA CORREGIDA: Fondo sólido y se oculta limpiamente */
   #letter-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(11, 15, 25, 0.8);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden; 
-    transition: opacity 1.5s ease-in-out, visibility 1.5s;
+    pointer-events: none; /* No estorba cuando está oculta */
+    transition: opacity 1s ease-in-out, visibility 1s;
     z-index: 20;
-    backdrop-filter: blur(4px);
   }
   #letter-overlay.show {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto; /* Permite clics solo cuando se ve */
   }
   .letter-content {
-    background: linear-gradient(135deg, #162238 0%, #0b101a 100%);
-    border: 1px solid #4a90e2;
-    border-radius: 8px;
-    padding: 45px;
-    max-width: 75%;
+    background: #fffef0; /* Fondo crema sólido y legible */
+    border: 3px solid #ffcc80;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 85%;
     text-align: center;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    position: relative;
-  }
-  .letter-content::before {
-    content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
-    border: 1px dashed rgba(114, 163, 222, 0.3); pointer-events: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
   .letter-content .greeting {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.5rem;
-    color: #e2e8f0; 
-    margin-bottom: 20px;
+    font-size: 2.2rem;
+    color: #d84315; 
+    margin-bottom: 10px;
+    font-weight: bold;
     text-align: left;
   }
   .letter-content p {
-    font-family: 'Playfair Display', serif;
-    color: #a0aec0; 
-    font-size: 1.3rem;
-    line-height: 1.8;
-    margin: 15px 0;
-    font-style: italic;
+    color: #5d4037; 
+    font-size: 1.6rem;
+    line-height: 1.3;
+    margin: 10px 0;
   }
   .letter-content .signature {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.2rem;
-    color: #e2e8f0; 
-    margin-top: 30px;
+    font-size: 2rem;
+    color: #d84315; 
+    margin-top: 15px;
+    font-weight: bold;
     text-align: right;
   }
   .close-btn {
-    margin-top: 25px;
-    font-size: 1rem;
-    border-color: #a0aec0;
-    color: #a0aec0;
+    margin-top: 15px;
+    font-size: 1.3rem;
   }
-  .close-btn:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff;}
 </style>
 </head>
 <body>
-<h3>UN BRILLO ETERNO</h3>
+<h3>SIEMPRE EN MI CORAZÓN</h3>
 <div id="wall">
   <canvas id="bg"></canvas>
   <canvas id="paint"></canvas>
@@ -142,18 +137,18 @@
   
   <div id="letter-overlay">
     <div class="letter-content">
-      <div class="greeting">Para mi humana favorita,</div>
-      <p>Aunque mis patitas ya no caminen por la casa, mi ronroneo seguirá vibrando en cada recuerdo hermoso que compartimos.</p>
-      <p>Gracias por darme un hogar lleno de luz. Ahora búscame en las noches despejadas; seré la estrella más brillante, cuidándote desde el cielo porque el amor que nos tuvimos es infinito.</p>
-      <div class="signature">Con cariño, Samuel 🐾</div>
+      <div class="greeting">Kelly,</div>
+      <p>"Gracias por haberme elegido y por darme la mejor vida que un michi pudo soñar."</p>
+      <p>"Fui muy feliz a tu lado, por tus caricias y todo tu amor. No estés triste, ahora juego en un jardín de luz y siempre dejaré huellas doradas en tu corazón."</p>
+      <div class="signature">Atte. Samuel 🐾</div>
       <button class="close-btn" onclick="closeLetter()">Cerrar</button>
     </div>
   </div>
 </div>
 
 <div class="controls">
-  <button onclick="start()">✨ ILUMINAR CIELO</button>
-  <button onclick="clearCanv()">↺ REINICIAR</button>
+  <button onclick="start()">▶ DIBUJAR</button>
+  <button onclick="clearCanv()">↺ BORRAR</button>
 </div>
 
 <script>
@@ -161,14 +156,6 @@ const bg = document.getElementById('bg'), bCtx = bg.getContext('2d');
 const paint = document.getElementById('paint'), pCtx = paint.getContext('2d');
 const fg = document.getElementById('fg'), fCtx = fg.getContext('2d');
 const letterOverlay = document.getElementById('letter-overlay');
-
-let stars = [];
-for(let i=0; i<150; i++) {
-  stars.push({
-    x: Math.random(), y: Math.random() * 0.7, 
-    size: Math.random() * 1.5, alpha: Math.random()
-  });
-}
 
 function resize() {
   [bg, paint, fg].forEach(c => { 
@@ -178,303 +165,236 @@ function resize() {
   drawStaticBackground();
 }
 
+let birds = [
+  {x: 800, y: 150, speed: 0.8, size: 8, wing: 0},
+  {x: 400, y: 100, speed: 1.2, size: 6, wing: 1.5}
+]; 
+
+// FONDO ATARDECER
 function drawStaticBackground() {
   const w = bg.width, h = bg.height;
   bCtx.clearRect(0, 0, w, h);
   
-  // Cielo nocturno estrellado
-  let grad = bCtx.createLinearGradient(0, 0, 0, h);
-  grad.addColorStop(0, '#050a15'); 
-  grad.addColorStop(0.5, '#0f1b2e'); 
-  grad.addColorStop(0.8, '#1a2c42');
+  let grad = bCtx.createLinearGradient(0, 0, 0, h * 0.7);
+  grad.addColorStop(0, '#87CEFA'); grad.addColorStop(0.5, '#FFDAB9'); grad.addColorStop(1, '#FFB6C1');
   bCtx.fillStyle = grad; bCtx.fillRect(0, 0, w, h);
 
-  // Estrellas de fondo
-  stars.forEach(s => {
-    bCtx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
-    bCtx.beginPath(); bCtx.arc(s.x * w, s.y * h, s.size, 0, Math.PI*2); bCtx.fill();
-  });
+  bCtx.save();
+  bCtx.shadowColor = 'rgba(255, 200, 100, 0.8)'; bCtx.shadowBlur = 50; 
+  bCtx.fillStyle = '#FFF5EE';
+  bCtx.beginPath(); bCtx.arc(w * 0.85, h * 0.35, 60, 0, Math.PI * 2); bCtx.fill();
+  bCtx.restore();
 
-  // Luna realista
-  bCtx.shadowColor = 'rgba(200, 220, 255, 0.4)'; bCtx.shadowBlur = 40; 
-  bCtx.fillStyle = '#f0f4f8';
-  bCtx.beginPath(); bCtx.arc(w * 0.85, h * 0.25, 45, 0, Math.PI * 2); bCtx.fill();
-  bCtx.shadowBlur = 0;
-  
-  // Cráteres de la luna
-  bCtx.fillStyle = 'rgba(0,0,0,0.08)';
-  bCtx.beginPath(); bCtx.arc(w * 0.83, h * 0.23, 8, 0, Math.PI*2); bCtx.fill();
-  bCtx.beginPath(); bCtx.arc(w * 0.87, h * 0.27, 12, 0, Math.PI*2); bCtx.fill();
-  bCtx.beginPath(); bCtx.arc(w * 0.82, h * 0.28, 5, 0, Math.PI*2); bCtx.fill();
+  bCtx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  bCtx.beginPath(); bCtx.arc(w * 0.2, h * 0.2, 40, 0, Math.PI * 2); 
+  bCtx.arc(w * 0.25, h * 0.18, 50, 0, Math.PI * 2); 
+  bCtx.arc(w * 0.3, h * 0.22, 35, 0, Math.PI * 2); bCtx.fill();
 
-  // Prado / Colinas nocturnas
-  bCtx.fillStyle = '#081016';
-  bCtx.beginPath();
-  bCtx.moveTo(0, h * 0.75);
-  bCtx.quadraticCurveTo(w * 0.25, h * 0.65, w * 0.6, h * 0.78);
-  bCtx.quadraticCurveTo(w * 0.8, h * 0.85, w, h * 0.7);
-  bCtx.lineTo(w, h); bCtx.lineTo(0, h); bCtx.fill();
-
-  bCtx.fillStyle = '#0b1620';
-  bCtx.beginPath();
-  bCtx.moveTo(0, h * 0.85);
-  bCtx.quadraticCurveTo(w * 0.4, h * 0.75, w, h * 0.88);
-  bCtx.lineTo(w, h); bCtx.lineTo(0, h); bCtx.fill();
+  bCtx.fillStyle = '#e8d5c4'; bCtx.fillRect(0, h * 0.6, w, h * 0.4);
+  bCtx.strokeStyle = '#d7c2ae'; bCtx.lineWidth = 3;
+  let rowH = 50, colW = 100;
+  for(let y = h * 0.6; y < h; y += rowH) { bCtx.beginPath(); bCtx.moveTo(0, y); bCtx.lineTo(w, y); bCtx.stroke(); }
+  let offset = 0;
+  for(let y = h * 0.6; y < h; y += rowH) {
+    offset = (offset === 0) ? colW / 2 : 0;
+    for(let x = offset; x < w; x += colW) { bCtx.beginPath(); bCtx.moveTo(x, y); bCtx.lineTo(x, y + rowH); bCtx.stroke(); }
+  }
 }
 
-// Dibujo realista del gato
-function drawCatRealistic(ctx, x, y, time) {
+// NUEVO GATO NEGRO Y REALISTA
+function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.save();
   ctx.translate(x, y);
   
-  let scale = 1.3; // Tamaño del gato
+  let scale = 1.3; // Escala para hacerlo de buen tamaño
   ctx.scale(scale, scale);
-  
-  // Animación de respiración suave
-  let breath = Math.sin(time * 0.03) * 1.5; 
-  
-  const furMain = '#6b7a8a';
-  const furDark = '#485664';
-  const furLight = '#9caebf';
-  
-  // Sombra en el suelo
-  ctx.fillStyle = 'rgba(0,0,0,0.4)';
-  ctx.beginPath(); ctx.ellipse(5, 5, 45, 12, 0, 0, Math.PI*2); ctx.fill();
 
-  // Cola animada (curva suave)
+  let breath = Math.sin(time * 0.04) * 0.5;
+
+  // Sombra en el muro
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.beginPath(); ctx.ellipse(0, 5, 30, 8, 0, 0, Math.PI*2); ctx.fill();
+
+  // Cola elegante
+  let tailSwing = Math.sin(time * 0.02) * 0.15;
   ctx.save();
-  let tailMove = Math.sin(time * 0.02) * 0.15;
-  ctx.translate(-25, -10);
-  ctx.rotate(tailMove);
-  ctx.lineWidth = 14; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  ctx.strokeStyle = furDark;
+  ctx.translate(22, -5);
+  ctx.rotate(tailSwing);
+  ctx.strokeStyle = '#0f0f0f';
+  ctx.lineWidth = 6;
+  ctx.lineCap = 'round';
   ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.bezierCurveTo(-30, 20, -50, -30, -35, -45);
+  ctx.moveTo(0,0);
+  ctx.bezierCurveTo(20, 10, 45, -5, 30, -35);
   ctx.stroke();
   ctx.restore();
 
-  // Pata trasera (muslo)
-  ctx.fillStyle = furDark;
+  // Cuerpo negro con sutil sombreado para volumen
+  let bodyGrad = ctx.createRadialGradient(0, -30, 5, 0, -30, 45);
+  bodyGrad.addColorStop(0, '#2a2a2a'); // Luz sutil en el lomo
+  bodyGrad.addColorStop(1, '#050505'); // Negro profundo
+
+  ctx.fillStyle = bodyGrad;
   ctx.beginPath();
-  ctx.ellipse(-15, -15 - breath*0.5, 20, 25, -Math.PI/6, 0, Math.PI*2);
+  ctx.moveTo(18, 0); // Pata trasera
+  ctx.bezierCurveTo(30, -20, 20, -60, 5, -70 - breath); // Lomo
+  ctx.lineTo(-5, -70 - breath); // Cuello
+  ctx.bezierCurveTo(-15, -40, -15, -20, -10, 0); // Pecho a pata delantera
   ctx.fill();
 
-  // Cuerpo principal (anatomía más fluida)
-  ctx.fillStyle = furMain;
-  ctx.beginPath();
-  ctx.moveTo(15, -60 - breath); // Cuello
-  ctx.bezierCurveTo(30, -40 - breath, 25, 0, 20, 0); // Pecho a pata delantera
-  ctx.lineTo(0, 0); // Base frontal
-  ctx.bezierCurveTo(-20, 0, -35, -10, -35, -30 - breath); // Lomo inferior
-  ctx.bezierCurveTo(-35, -50 - breath, -10, -70 - breath, 5, -65 - breath); // Espalda a nuca
-  ctx.fill();
-
-  // Pecho y vientre más claro
-  ctx.fillStyle = furLight;
-  ctx.beginPath();
-  ctx.moveTo(15, -60 - breath);
-  ctx.bezierCurveTo(22, -40 - breath, 15, -10, 5, 0);
-  ctx.lineTo(-5, 0);
-  ctx.bezierCurveTo(5, -20, 10, -40 - breath, 5, -60 - breath);
-  ctx.fill();
-
-  // Pata delantera
-  ctx.fillStyle = furMain;
-  ctx.beginPath();
-  ctx.moveTo(15, -30 - breath);
-  ctx.lineTo(22, 0); ctx.lineTo(12, 5); ctx.lineTo(8, -25 - breath);
-  ctx.fill();
+  // Cabeza felina realista
+  ctx.translate(0, -72 - breath);
   
-  // Dedos pata
-  ctx.strokeStyle = furDark; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(15, 5); ctx.lineTo(14, 0); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(19, 4); ctx.lineTo(18, 0); ctx.stroke();
+  let headGrad = ctx.createRadialGradient(-5, -5, 2, 0, 0, 25);
+  headGrad.addColorStop(0, '#333');
+  headGrad.addColorStop(1, '#050505');
+  ctx.fillStyle = headGrad;
 
-  // Cabeza realista (perfil 3/4)
-  ctx.save();
-  ctx.translate(5, -65 - breath);
-  
-  // Forma de la cabeza
-  ctx.fillStyle = furMain;
+  // Silueta de la cara (menos redonda, pómulos marcados)
   ctx.beginPath();
-  ctx.moveTo(0, 15); // Cuello base
-  ctx.bezierCurveTo(25, 10, 22, -15, 15, -20); // Frente y hocico
-  ctx.bezierCurveTo(5, -25, -10, -20, -15, -5); // Cráneo superior
-  ctx.bezierCurveTo(-15, 10, -10, 15, 0, 15); // Mandíbula
+  ctx.moveTo(0, 10); // base cuello
+  ctx.bezierCurveTo(15, 10, 18, -5, 12, -15); // mejilla derecha
+  ctx.bezierCurveTo(5, -22, -5, -22, -12, -15); // cráneo
+  ctx.bezierCurveTo(-18, -5, -15, 10, 0, 10); // mejilla izquierda
   ctx.fill();
 
-  // Orejas triangulares con profundidad
-  // Oreja izquierda (atrás)
-  ctx.fillStyle = furDark;
-  ctx.beginPath(); ctx.moveTo(-8, -18); ctx.lineTo(-12, -35); ctx.lineTo(2, -22); ctx.fill();
-  // Oreja derecha (frente)
-  ctx.fillStyle = furMain;
-  ctx.beginPath(); ctx.moveTo(-2, -20); ctx.lineTo(8, -38); ctx.lineTo(14, -18); ctx.fill();
-  ctx.fillStyle = '#dcb6c0'; // Interior oreja rosado pálido
-  ctx.beginPath(); ctx.moveTo(2, -20); ctx.lineTo(8, -32); ctx.lineTo(11, -19); ctx.fill();
+  // Orejas puntiagudas reales
+  ctx.fillStyle = '#050505';
+  ctx.beginPath(); ctx.moveTo(8, -12); ctx.lineTo(16, -28); ctx.lineTo(16, -10); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-8, -12); ctx.lineTo(-16, -28); ctx.lineTo(-16, -10); ctx.fill();
+  
+  // Interior orejas
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath(); ctx.moveTo(10, -12); ctx.lineTo(15, -24); ctx.lineTo(14, -11); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(-10, -12); ctx.lineTo(-15, -24); ctx.lineTo(-14, -11); ctx.fill();
 
-  // Hocico
-  ctx.fillStyle = furLight;
-  ctx.beginPath(); ctx.ellipse(15, -5, 8, 6, Math.PI/8, 0, Math.PI*2); ctx.fill();
-
-  // Nariz realista
-  ctx.fillStyle = '#4a2c31';
-  ctx.beginPath(); ctx.moveTo(21, -6); ctx.lineTo(24, -4); ctx.lineTo(22, -2); ctx.fill();
-
-  // Ojo realista (forma almendrada)
-  let blink = (time % 200 < 5) ? 0.1 : 1;
+  // Ojos (Almendrados y felinos color oro/verde)
+  let blink = (time % 250 < 6) ? 0.1 : 1;
   ctx.save();
-  ctx.translate(10, -10);
   ctx.scale(1, blink);
-  
-  ctx.fillStyle = '#d4e157'; // Verde amarillento
+
+  // Ojo Izquierdo
+  ctx.fillStyle = '#ffcc00'; // Dorado brillate
   ctx.beginPath();
-  ctx.moveTo(-4, 0); ctx.quadraticCurveTo(0, -4, 4, -1);
-  ctx.quadraticCurveTo(0, 2, -4, 0); ctx.fill();
-  
-  ctx.fillStyle = '#111'; // Pupila vertical
-  ctx.beginPath(); ctx.ellipse(0.5, -0.5, 1, 2.5, Math.PI/10, 0, Math.PI*2); ctx.fill();
-  
-  ctx.fillStyle = '#fff'; // Brillo
-  ctx.beginPath(); ctx.arc(-1, -1.5, 0.8, 0, Math.PI*2); ctx.fill();
-  ctx.restore();
+  ctx.moveTo(-10, -2);
+  ctx.quadraticCurveTo(-6, -7, -2, -2);
+  ctx.quadraticCurveTo(-6, 3, -10, -2);
+  ctx.fill();
+  ctx.fillStyle = '#000'; // Pupila alargada
+  ctx.beginPath(); ctx.ellipse(-6, -2, 1, 2.5, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; // Brillo del ojo
+  ctx.beginPath(); ctx.arc(-6.5, -3, 0.6, 0, Math.PI*2); ctx.fill();
 
-  // Boca sutil
-  ctx.strokeStyle = furDark; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(22, -2); ctx.quadraticCurveTo(18, 2, 15, 1); ctx.stroke();
-
-  // Bigotes finos
-  ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 0.5;
-  ctx.beginPath(); ctx.moveTo(18, -3); ctx.quadraticCurveTo(30, -5, 38, -2); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(18, -1); ctx.quadraticCurveTo(32, 2, 35, 6); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(16, 0); ctx.quadraticCurveTo(28, 8, 30, 12); ctx.stroke();
-
-  ctx.restore();
-
-  // Collar amarillo
-  ctx.strokeStyle = '#f1c40f'; ctx.lineWidth = 4; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(2, -55 - breath); ctx.quadraticCurveTo(12, -48 - breath, 22, -53 - breath); ctx.stroke();
-  
-  // Plaquita
-  ctx.fillStyle = '#e67e22'; 
-  ctx.beginPath(); ctx.arc(14, -48 - breath, 4, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#f39c12';
-  ctx.beginPath(); ctx.arc(14, -48 - breath, 2.5, 0, Math.PI*2); ctx.fill();
+  // Ojo Derecho
+  ctx.fillStyle = '#ffcc00';
+  ctx.beginPath();
+  ctx.moveTo(2, -2);
+  ctx.quadraticCurveTo(6, -7, 10, -2);
+  ctx.quadraticCurveTo(6, 3, 2, -2);
+  ctx.fill();
+  ctx.fillStyle = '#000';
+  ctx.beginPath(); ctx.ellipse(6, -2, 1, 2.5, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; 
+  ctx.beginPath(); ctx.arc(5.5, -3, 0.6, 0, Math.PI*2); ctx.fill();
 
   ctx.restore();
+
+  // Narizcita negra
+  ctx.fillStyle = '#111';
+  ctx.beginPath();
+  ctx.moveTo(-2, 4); ctx.lineTo(2, 4); ctx.lineTo(0, 6); ctx.fill();
+
+  // Bigotes elegantes (blancos con opacidad)
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(-4, 6); ctx.quadraticCurveTo(-20, 5, -30, 0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-4, 7); ctx.quadraticCurveTo(-20, 8, -32, 10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(4, 6); ctx.quadraticCurveTo(20, 5, 30, 0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(4, 7); ctx.quadraticCurveTo(20, 8, 32, 10); ctx.stroke();
+
+  ctx.restore(); // restaura translación de cabeza
+  ctx.restore(); // restaura escala general
 }
 
-// Constelación de la palabra "SAMUEL"
-// Coordenadas relativas (0 a 1) para escalar al canvas
-const constellationPoints = [
-  // S
-  {x:0.12, y:0.3}, {x:0.07, y:0.3}, {x:0.07, y:0.4}, {x:0.12, y:0.4}, {x:0.12, y:0.5}, {x:0.07, y:0.5},
-  // A
-  {x:0.17, y:0.5}, {x:0.20, y:0.3}, {x:0.23, y:0.5}, {x:0.185, y:0.42}, {x:0.215, y:0.42},
-  // M
-  {x:0.28, y:0.5}, {x:0.28, y:0.3}, {x:0.32, y:0.4}, {x:0.36, y:0.3}, {x:0.36, y:0.5},
-  // U
-  {x:0.42, y:0.3}, {x:0.42, y:0.45}, {x:0.44, y:0.5}, {x:0.46, y:0.5}, {x:0.48, y:0.45}, {x:0.48, y:0.3},
-  // E
-  {x:0.58, y:0.3}, {x:0.53, y:0.3}, {x:0.53, y:0.4}, {x:0.57, y:0.4}, {x:0.53, y:0.4}, {x:0.53, y:0.5}, {x:0.58, y:0.5},
-  // L
-  {x:0.63, y:0.3}, {x:0.63, y:0.5}, {x:0.68, y:0.5}
+// Trazos de la palabra SAMUEL
+const letterGroups = [
+  [{x:0.13, y:0.68, ex:0.04, ey:0.68, width:18}, {x:0.04, y:0.68, ex:0.04, ey:0.77, width:18}, {x:0.04, y:0.77, ex:0.13, ey:0.77, width:18}, {x:0.13, y:0.77, ex:0.13, ey:0.87, width:18}, {x:0.13, y:0.87, ex:0.04, ey:0.87, width:18}],
+  [{x:0.23, y:0.68, ex:0.17, ey:0.87, width:18}, {x:0.23, y:0.68, ex:0.29, ey:0.87, width:18}, {x:0.19, y:0.79, ex:0.27, ey:0.79, width:15}],
+  [{x:0.33, y:0.87, ex:0.33, ey:0.68, width:18}, {x:0.33, y:0.68, ex:0.40, ey:0.80, width:16}, {x:0.40, y:0.80, ex:0.47, ey:0.68, width:16}, {x:0.47, y:0.68, ex:0.47, ey:0.87, width:18}],
+  [{x:0.51, y:0.68, ex:0.51, ey:0.87, width:18}, {x:0.51, y:0.87, ex:0.61, ey:0.87, width:18}, {x:0.61, y:0.87, ex:0.61, ey:0.68, width:18}],
+  [{x:0.65, y:0.68, ex:0.65, ey:0.87, width:18}, {x:0.65, y:0.68, ex:0.74, ey:0.68, width:16}, {x:0.65, y:0.77, ex:0.72, ey:0.77, width:15}, {x:0.65, y:0.87, ex:0.74, ey:0.87, width:16}],
+  [{x:0.78, y:0.68, ex:0.78, ey:0.87, width:18}, {x:0.78, y:0.87, ex:0.87, ey:0.87, width:16}]
 ];
 
-// Organizar en trazos continuos para animar líneas
-const strokes = [
-  [0,1,2,3,4,5], // S
-  [6,7,8], [9,10], // A
-  [11,12,13,14,15], // M
-  [16,17,18,19,20,21], // U
-  [22,23,24,25,26,27,28], // E
-  [29,30,31] // L
-];
+const allStrokes = [];
+letterGroups.forEach((group, gIndex) => { group.forEach(stroke => { allStrokes.push({ ...stroke, groupIndex: gIndex }); }); });
+
+function magicDust(x, y, radius, count) {
+  for(let i = 0; i < count; i++) {
+    let a = Math.random() * Math.PI * 2; let d = (Math.random() * Math.random()) * radius; 
+    let color = Math.random() > 0.5 ? '#ffeb3b' : '#fff';
+    pCtx.fillStyle = color;
+    pCtx.globalAlpha = 0.8; 
+    pCtx.beginPath();
+    pCtx.arc(x + Math.cos(a) * d, y + Math.sin(a) * d, Math.random() * 2 + 1, 0, Math.PI*2);
+    pCtx.fill();
+  }
+  pCtx.globalAlpha = 1;
+}
 
 let anim = null;
-let currentStroke = 0;
-let currentSegment = 0;
-let segmentProgress = 0;
+let currentStrokeIdx = 0;
+let currentT = 0;
 let timeFrame = 0;
 let letterTimeout = null;
-
-function drawStarPoint(ctx, x, y, glow) {
-  ctx.shadowColor = '#fff';
-  ctx.shadowBlur = glow ? 15 : 5;
-  ctx.fillStyle = '#fff';
-  ctx.beginPath(); ctx.arc(x, y, glow ? 3 : 1.5, 0, Math.PI*2); ctx.fill();
-  ctx.shadowBlur = 0;
-}
 
 function start() {
   cancelAnimationFrame(anim);
   clearTimeout(letterTimeout);
+  
+  // Ocultamos la carta al iniciar y limpiamos lienzos
   letterOverlay.classList.remove('show');
-  currentStroke = 0; currentSegment = 0; segmentProgress = 0; timeFrame = 0;
+  currentStrokeIdx = 0; currentT = 0; timeFrame = 0;
   pCtx.clearRect(0, 0, paint.width, paint.height);
   drawStaticBackground();
-  
-  // Dibujar estrellas base de la constelación tenuemente
-  const w = paint.width, h = paint.height;
-  constellationPoints.forEach(p => {
-    pCtx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-    pCtx.beginPath(); pCtx.arc(p.x * w, p.y * h, 1, 0, Math.PI*2); pCtx.fill();
-  });
   
   (function loop() {
     timeFrame++;
     fCtx.clearRect(0, 0, fg.width, fg.height);
     
-    // Gato en la colina derecha
-    drawCatRealistic(fCtx, fg.width * 0.8, fg.height * 0.72, timeFrame);
+    // Aves
+    birds.forEach(b => {
+      b.x -= b.speed; if(b.x < -50) b.x = bg.width + 50;
+      b.wing += 0.15; let wo = Math.sin(b.wing) * b.size;
+      fCtx.strokeStyle = 'rgba(100, 80, 70, 0.6)'; fCtx.lineWidth = 2;
+      fCtx.beginPath();
+      fCtx.moveTo(b.x, b.y); fCtx.quadraticCurveTo(b.x + b.size, b.y - wo, b.x + b.size*2, b.y - wo*0.5);
+      fCtx.moveTo(b.x, b.y); fCtx.quadraticCurveTo(b.x - b.size, b.y - wo, b.x - b.size*2, b.y - wo*0.5);
+      fCtx.stroke();
+    });
 
-    // Animación de la constelación
-    if (currentStroke < strokes.length) {
-      let strokeArr = strokes[currentStroke];
+    // Dibujamos al michi negro sentado en el muro
+    drawRealisticBlackCat(fCtx, fg.width * 0.8, fg.height * 0.55, timeFrame);
+
+    if (currentStrokeIdx < allStrokes.length) {
+      let st = allStrokes[currentStrokeIdx];
+      let x = (st.x + (st.ex - st.x) * currentT) * paint.width;
+      let y = (st.y + (st.ey - st.y) * currentT) * paint.height;
+      let r = st.width;
       
-      if (currentSegment < strokeArr.length - 1) {
-        let p1 = constellationPoints[strokeArr[currentSegment]];
-        let p2 = constellationPoints[strokeArr[currentSegment + 1]];
-        
-        let startX = p1.x * w, startY = p1.y * h;
-        let endX = p2.x * w, endY = p2.y * h;
-        
-        let currentX = startX + (endX - startX) * segmentProgress;
-        let currentY = startY + (endY - startY) * segmentProgress;
-        
-        // Dibujar línea estelar
-        pCtx.strokeStyle = 'rgba(179, 229, 255, 0.8)';
-        pCtx.lineWidth = 1.5;
-        pCtx.beginPath();
-        pCtx.moveTo(startX, startY);
-        pCtx.lineTo(currentX, currentY);
-        pCtx.stroke();
-        
-        // Puntos y destello actual
-        drawStarPoint(fCtx, startX, startY, false);
-        drawStarPoint(fCtx, currentX, currentY, true); // Estrella viajera en fg
-        
-        segmentProgress += 0.04;
-        
-        if (segmentProgress >= 1) {
-          drawStarPoint(pCtx, endX, endY, true); // Dejar estrella fija en paint
-          segmentProgress = 0;
-          currentSegment++;
-        }
-      } else {
-        currentStroke++;
-        currentSegment = 0;
-      }
+      magicDust(x, y, r, 6);
+      currentT += 0.025;
+      
+      // Estrella fugaz de la magia
+      fCtx.shadowColor = '#ffeb3b'; fCtx.shadowBlur = 15;
+      fCtx.fillStyle = '#fff';
+      fCtx.beginPath(); fCtx.arc(x, y, 4, 0, Math.PI * 2); fCtx.fill();
+      fCtx.shadowBlur = 0;
+      
+      if (currentT > 1) { currentT = 0; currentStrokeIdx++; }
       anim = requestAnimationFrame(loop);
     } else {
-      // Brillo intermitente final en estrellas
-      if(timeFrame % 60 < 30) {
-        constellationPoints.forEach(p => {
-          if(Math.random() > 0.8) drawStarPoint(fCtx, p.x * w, p.y * h, true);
-        });
-      }
-      
+      // Cuando termina, mostramos la carta
       if(!letterOverlay.classList.contains('show')) {
         letterTimeout = setTimeout(() => { letterOverlay.classList.add('show'); }, 1500);
       }
@@ -483,10 +403,14 @@ function start() {
   })();
 }
 
-function closeLetter() { letterOverlay.classList.remove('show'); }
+// Función para el botón "Cerrar" de la carta
+function closeLetter() { 
+  letterOverlay.classList.remove('show'); 
+}
 
 function clearCanv() {
-  cancelAnimationFrame(anim); clearTimeout(letterTimeout);
+  cancelAnimationFrame(anim); 
+  clearTimeout(letterTimeout);
   letterOverlay.classList.remove('show');
   pCtx.clearRect(0, 0, paint.width, paint.height);
   fCtx.clearRect(0, 0, fg.width, fg.height);
@@ -497,4 +421,4 @@ window.addEventListener('resize', resize);
 resize();
 </script>
 </body>
-</html> 
+</html>
