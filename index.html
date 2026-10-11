@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Homenaje a Samuel</title>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<!-- Fuentes: Caveat para la carta y firma, Playfair Display para el resto -->
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   body {
     margin: 0;
@@ -15,7 +16,7 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    font-family: 'Caveat', cursive;
+    font-family: 'Playfair Display', serif;
     color: #5d4037;
     overflow: hidden;
   }
@@ -34,7 +35,7 @@
     position: relative;
     width: 95vw;
     max-width: 900px;
-    height: 65vh; 
+    height: 65vh; /* Altura limitada para que los botones se vean */
     max-height: 600px;
     background: #fff;
     border: 4px solid #d7ccc8;
@@ -61,12 +62,13 @@
     border: 2px solid #ffb347;
     padding: 10px 25px;
     border-radius: 25px;
-    font-family: 'Caveat', cursive;
-    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    letter-spacing: 1px;
   }
   button:hover {
     background: #ffb347;
@@ -74,33 +76,36 @@
     transform: translateY(-2px);
   }
 
-  /* CARTA */
+  /* CARTA DE DESPEDIDA: Fondo sólido, legible y se oculta limpiamente */
   #letter-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden; 
-    pointer-events: none; 
-    transition: opacity 1s ease-in-out, visibility 1s;
+    pointer-events: none; /* No estorba cuando está oculta */
+    transition: opacity 1.5s ease-in-out, visibility 1.5s;
     z-index: 20;
+    backdrop-filter: blur(3px);
   }
   #letter-overlay.show {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto; 
+    pointer-events: auto; /* Permite clics solo cuando se ve */
   }
   .letter-content {
-    background: #fffef0; 
+    background: #fffef0; /* Fondo crema sólido y legible */
     border: 3px solid #ffcc80;
     border-radius: 15px;
     padding: 30px;
     max-width: 85%;
     text-align: center;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    font-family: 'Caveat', cursive; /* Fuente manuscrita para la carta */
+    position: relative;
   }
   .letter-content .greeting {
     font-size: 2.2rem;
@@ -131,14 +136,15 @@
 <body>
 <h3>SIEMPRE EN MI CORAZÓN</h3>
 <div id="wall">
+  <!-- Capas separadas para máximo rendimiento -->
   <canvas id="bg"></canvas>
   <canvas id="paint"></canvas>
   <canvas id="fg"></canvas>
   
   <div id="letter-overlay">
     <div class="letter-content">
-      <div class="greeting">Mi querida Kelly,</div>
-      <p>"Aunque mis patitas ya no pisen este mundo, mi amor por ti es eterno y verdadero."</p>
+      <div class="greeting">Kelly,</div>
+      <p>"Gracias por haberme elegido y por darme la mejor vida que un michi pudo soñar."</p>
       <p>"Fuiste mi humana favorita. Recuerda mis ronroneos cuando te sientas triste. Ahora soy el Rey de las Estrellas, cuidándote desde lo más alto, pero siempre seré tu pequeño Samuel."</p>
       <div class="signature">Tu rey eterno, Samuel 🐾👑</div>
       <button class="close-btn" onclick="closeLetter()">Cerrar</button>
@@ -147,7 +153,7 @@
 </div>
 
 <div class="controls">
-  <button onclick="start()">▶ DIBUJAR</button>
+  <button onclick="start()">✨ DIBUJAR MEMORIA</button>
   <button onclick="clearCanv()">↺ BORRAR</button>
 </div>
 
@@ -175,21 +181,25 @@ function drawStaticBackground() {
   const w = bg.width, h = bg.height;
   bCtx.clearRect(0, 0, w, h);
   
+  // Cielo atardecer
   let grad = bCtx.createLinearGradient(0, 0, 0, h * 0.7);
   grad.addColorStop(0, '#87CEFA'); grad.addColorStop(0.5, '#FFDAB9'); grad.addColorStop(1, '#FFB6C1');
   bCtx.fillStyle = grad; bCtx.fillRect(0, 0, w, h);
 
+  // Sol (Sombra optimizada)
   bCtx.save();
   bCtx.shadowColor = 'rgba(255, 200, 100, 0.8)'; bCtx.shadowBlur = 50; 
   bCtx.fillStyle = '#FFF5EE';
   bCtx.beginPath(); bCtx.arc(w * 0.85, h * 0.35, 60, 0, Math.PI * 2); bCtx.fill();
   bCtx.restore();
 
+  // Nubes suaves
   bCtx.fillStyle = 'rgba(255, 255, 255, 0.7)';
   bCtx.beginPath(); bCtx.arc(w * 0.2, h * 0.2, 40, 0, Math.PI * 2); 
   bCtx.arc(w * 0.25, h * 0.18, 50, 0, Math.PI * 2); 
   bCtx.arc(w * 0.3, h * 0.22, 35, 0, Math.PI * 2); bCtx.fill();
 
+  // Barda
   bCtx.fillStyle = '#e8d5c4'; bCtx.fillRect(0, h * 0.6, w, h * 0.4);
   bCtx.strokeStyle = '#d7c2ae'; bCtx.lineWidth = 3;
   let rowH = 50, colW = 100;
@@ -201,18 +211,19 @@ function drawStaticBackground() {
   }
 }
 
-// GATO NEGRO REALISTA (MÁS GRANDE, CORONADO Y VOLTEADO A LA DERECHA)
-function drawRealisticBlackCat(ctx, x, y, time) {
+// NUEVO REY SAMUEL: NEGRO, MUCHO MÁS GRANDE, CORONADO Y A LA IZQUIERDA
+function drawSamuelAnimated(ctx, x, y, time) {
   ctx.save();
   ctx.translate(x, y);
   
-  let scale = 1.8; // ¡Gato mucho más grande!
-  // Usamos -scale en X para voltearlo horizontalmente y que mire al centro
+  // Escala mucho más grande (1.8x)
+  let scale = 1.8; 
+  // Nos aseguramos de que mire hacia el atardecer y su firma (hacia la derecha)
   ctx.scale(-scale, scale);
 
   let breath = Math.sin(time * 0.04) * 0.5;
 
-  // Sombra en el muro
+  // Sombra sobre la barda
   ctx.fillStyle = 'rgba(0,0,0,0.15)';
   ctx.beginPath(); ctx.ellipse(0, 5, 30, 8, 0, 0, Math.PI*2); ctx.fill();
 
@@ -230,17 +241,17 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.stroke();
   ctx.restore();
 
-  // Cuerpo negro con sutil sombreado para volumen
+  // Cuerpo negro realista
   let bodyGrad = ctx.createRadialGradient(0, -30, 5, 0, -30, 45);
   bodyGrad.addColorStop(0, '#2a2a2a'); // Luz sutil
   bodyGrad.addColorStop(1, '#050505'); // Negro profundo
 
   ctx.fillStyle = bodyGrad;
   ctx.beginPath();
-  ctx.moveTo(18, 0); 
-  ctx.bezierCurveTo(30, -20, 20, -60, 5, -70 - breath); 
-  ctx.lineTo(-5, -70 - breath); 
-  ctx.bezierCurveTo(-15, -40, -15, -20, -10, 0); 
+  ctx.moveTo(18, 0); // Pata trasera
+  ctx.bezierCurveTo(30, -20, 20, -60, 5, -70 - breath); // Lomo Arqueado
+  ctx.lineTo(-5, -70 - breath); // Cuello
+  ctx.bezierCurveTo(-15, -40, -15, -20, -10, 0); // Pecho esbelto
   ctx.fill();
 
   // Cabeza felina realista
@@ -251,12 +262,12 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   headGrad.addColorStop(1, '#050505');
   ctx.fillStyle = headGrad;
 
-  // Silueta de la cara
+  // Silueta de la cara esbelta
   ctx.beginPath();
-  ctx.moveTo(0, 10); 
-  ctx.bezierCurveTo(15, 10, 18, -5, 12, -15); 
-  ctx.bezierCurveTo(5, -22, -5, -22, -12, -15); 
-  ctx.bezierCurveTo(-18, -5, -15, 10, 0, 10); 
+  ctx.moveTo(0, 10); // base cuello
+  ctx.bezierCurveTo(15, 10, 18, -5, 12, -15); // mejilla derecha
+  ctx.bezierCurveTo(5, -22, -5, -22, -12, -15); // cráneo superior
+  ctx.bezierCurveTo(-18, -5, -15, 10, 0, 10); // mejilla izquierda
   ctx.fill();
 
   // Orejas puntiagudas reales
@@ -269,7 +280,7 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.beginPath(); ctx.moveTo(10, -12); ctx.lineTo(15, -24); ctx.lineTo(14, -11); ctx.fill();
   ctx.beginPath(); ctx.moveTo(-10, -12); ctx.lineTo(-15, -24); ctx.lineTo(-14, -11); ctx.fill();
 
-  // CORONA DEL REY (Se mueve junto con la cabeza)
+  // CORONA DEL REY DORADA (Se mueve junto con la cabeza)
   ctx.fillStyle = '#f1c40f'; // Dorado base
   ctx.beginPath();
   ctx.moveTo(-10, -18); // Base izquierda
@@ -285,7 +296,7 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.fillStyle = '#f39c12';
   ctx.beginPath(); ctx.moveTo(-10, -18); ctx.lineTo(10, -18); ctx.lineTo(9, -21); ctx.lineTo(-9, -21); ctx.fill();
 
-  // Joyas de la corona
+  // Joyas de la corona (Rubí y Zafiros)
   ctx.fillStyle = '#e74c3c'; // Rubí central
   ctx.beginPath(); ctx.arc(0, -32, 2.5, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#3498db'; // Zafiro izquierdo
@@ -294,13 +305,13 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.beginPath(); ctx.arc(9, -30, 1.5, 0, Math.PI*2); ctx.fill();
 
 
-  // Ojos (Almendrados color oro/verde)
+  // Ojos (Almendrados y felinos color oro/verde)
   let blink = (time % 250 < 6) ? 0.1 : 1;
   ctx.save();
   ctx.scale(1, blink);
 
   // Ojo Izquierdo
-  ctx.fillStyle = '#ffcc00'; 
+  ctx.fillStyle = '#ffcc00'; // Dorado brillate
   ctx.beginPath();
   ctx.moveTo(-10, -2);
   ctx.quadraticCurveTo(-6, -7, -2, -2);
@@ -387,7 +398,7 @@ function start() {
     timeFrame++;
     fCtx.clearRect(0, 0, fg.width, fg.height);
     
-    // Aves volando
+    // Aves
     birds.forEach(b => {
       b.x -= b.speed; if(b.x < -50) b.x = bg.width + 50;
       b.wing += 0.15; let wo = Math.sin(b.wing) * b.size;
@@ -410,7 +421,6 @@ function start() {
       magicDust(x, y, r, 6);
       currentT += 0.025;
       
-      // Magia fugaz
       fCtx.shadowColor = '#ffeb3b'; fCtx.shadowBlur = 15;
       fCtx.fillStyle = '#fff';
       fCtx.beginPath(); fCtx.arc(x, y, 4, 0, Math.PI * 2); fCtx.fill();
