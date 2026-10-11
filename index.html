@@ -410,7 +410,8 @@ function start() {
     });
 
     // DIBUJAMOS AL REY SAMUEL EN EL LADO IZQUIERDO (0.2 de ancho)
-    drawRealisticBlackCat(fCtx, fg.width * 0.2, fg.height * 0.55, timeFrame);
+    // ESTA ES LA LÍNEA QUE CORREGÍ:
+    drawSamuelAnimated(fCtx, fg.width * 0.2, fg.height * 0.55, timeFrame);
 
     if (currentStrokeIdx < allStrokes.length) {
       let st = allStrokes[currentStrokeIdx];
