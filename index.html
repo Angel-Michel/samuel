@@ -8,7 +8,7 @@
 <style>
   body {
     margin: 0;
-    padding-bottom: 20px; /* Espacio extra abajo para que los botones se vean */
+    padding-bottom: 20px; 
     background: #fdfbf7;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@
     position: relative;
     width: 95vw;
     max-width: 900px;
-    height: 65vh; /* Limitamos la altura para que no empuje los botones */
+    height: 65vh; 
     max-height: 600px;
     background: #fff;
     border: 4px solid #d7ccc8;
@@ -74,7 +74,7 @@
     transform: translateY(-2px);
   }
 
-  /* CARTA CORREGIDA: Fondo sólido y se oculta limpiamente */
+  /* CARTA */
   #letter-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -84,17 +84,17 @@
     justify-content: center;
     opacity: 0;
     visibility: hidden; 
-    pointer-events: none; /* No estorba cuando está oculta */
+    pointer-events: none; 
     transition: opacity 1s ease-in-out, visibility 1s;
     z-index: 20;
   }
   #letter-overlay.show {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto; /* Permite clics solo cuando se ve */
+    pointer-events: auto; 
   }
   .letter-content {
-    background: #fffef0; /* Fondo crema sólido y legible */
+    background: #fffef0; 
     border: 3px solid #ffcc80;
     border-radius: 15px;
     padding: 30px;
@@ -137,10 +137,10 @@
   
   <div id="letter-overlay">
     <div class="letter-content">
-      <div class="greeting">Kelly,</div>
-      <p>"Gracias por haberme elegido y por darme la mejor vida que un michi pudo soñar."</p>
-      <p>"Fui muy feliz a tu lado, por tus caricias y todo tu amor. No estés triste, ahora juego en un jardín de luz y siempre dejaré huellas doradas en tu corazón."</p>
-      <div class="signature">Atte. Samuel 🐾</div>
+      <div class="greeting">Mi querida Kelly,</div>
+      <p>"Aunque mis patitas ya no pisen este mundo, mi amor por ti es eterno y verdadero."</p>
+      <p>"Fuiste mi humana favorita. Recuerda mis ronroneos cuando te sientas triste. Ahora soy el Rey de las Estrellas, cuidándote desde lo más alto, pero siempre seré tu pequeño Samuel."</p>
+      <div class="signature">Tu rey eterno, Samuel 🐾👑</div>
       <button class="close-btn" onclick="closeLetter()">Cerrar</button>
     </div>
   </div>
@@ -201,13 +201,14 @@ function drawStaticBackground() {
   }
 }
 
-// NUEVO GATO NEGRO Y REALISTA
+// GATO NEGRO REALISTA (MÁS GRANDE, CORONADO Y VOLTEADO A LA DERECHA)
 function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.save();
   ctx.translate(x, y);
   
-  let scale = 1.3; // Escala para hacerlo de buen tamaño
-  ctx.scale(scale, scale);
+  let scale = 1.8; // ¡Gato mucho más grande!
+  // Usamos -scale en X para voltearlo horizontalmente y que mire al centro
+  ctx.scale(-scale, scale);
 
   let breath = Math.sin(time * 0.04) * 0.5;
 
@@ -231,15 +232,15 @@ function drawRealisticBlackCat(ctx, x, y, time) {
 
   // Cuerpo negro con sutil sombreado para volumen
   let bodyGrad = ctx.createRadialGradient(0, -30, 5, 0, -30, 45);
-  bodyGrad.addColorStop(0, '#2a2a2a'); // Luz sutil en el lomo
+  bodyGrad.addColorStop(0, '#2a2a2a'); // Luz sutil
   bodyGrad.addColorStop(1, '#050505'); // Negro profundo
 
   ctx.fillStyle = bodyGrad;
   ctx.beginPath();
-  ctx.moveTo(18, 0); // Pata trasera
-  ctx.bezierCurveTo(30, -20, 20, -60, 5, -70 - breath); // Lomo
-  ctx.lineTo(-5, -70 - breath); // Cuello
-  ctx.bezierCurveTo(-15, -40, -15, -20, -10, 0); // Pecho a pata delantera
+  ctx.moveTo(18, 0); 
+  ctx.bezierCurveTo(30, -20, 20, -60, 5, -70 - breath); 
+  ctx.lineTo(-5, -70 - breath); 
+  ctx.bezierCurveTo(-15, -40, -15, -20, -10, 0); 
   ctx.fill();
 
   // Cabeza felina realista
@@ -250,12 +251,12 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   headGrad.addColorStop(1, '#050505');
   ctx.fillStyle = headGrad;
 
-  // Silueta de la cara (menos redonda, pómulos marcados)
+  // Silueta de la cara
   ctx.beginPath();
-  ctx.moveTo(0, 10); // base cuello
-  ctx.bezierCurveTo(15, 10, 18, -5, 12, -15); // mejilla derecha
-  ctx.bezierCurveTo(5, -22, -5, -22, -12, -15); // cráneo
-  ctx.bezierCurveTo(-18, -5, -15, 10, 0, 10); // mejilla izquierda
+  ctx.moveTo(0, 10); 
+  ctx.bezierCurveTo(15, 10, 18, -5, 12, -15); 
+  ctx.bezierCurveTo(5, -22, -5, -22, -12, -15); 
+  ctx.bezierCurveTo(-18, -5, -15, 10, 0, 10); 
   ctx.fill();
 
   // Orejas puntiagudas reales
@@ -268,21 +269,46 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.beginPath(); ctx.moveTo(10, -12); ctx.lineTo(15, -24); ctx.lineTo(14, -11); ctx.fill();
   ctx.beginPath(); ctx.moveTo(-10, -12); ctx.lineTo(-15, -24); ctx.lineTo(-14, -11); ctx.fill();
 
-  // Ojos (Almendrados y felinos color oro/verde)
+  // CORONA DEL REY (Se mueve junto con la cabeza)
+  ctx.fillStyle = '#f1c40f'; // Dorado base
+  ctx.beginPath();
+  ctx.moveTo(-10, -18); // Base izquierda
+  ctx.lineTo(-14, -38); // Pico izquierdo
+  ctx.lineTo(-4, -26);  // Valle
+  ctx.lineTo(0, -42);   // Pico central
+  ctx.lineTo(4, -26);   // Valle
+  ctx.lineTo(14, -38);  // Pico derecho
+  ctx.lineTo(10, -18);  // Base derecha
+  ctx.fill();
+
+  // Borde inferior de la corona (brillo)
+  ctx.fillStyle = '#f39c12';
+  ctx.beginPath(); ctx.moveTo(-10, -18); ctx.lineTo(10, -18); ctx.lineTo(9, -21); ctx.lineTo(-9, -21); ctx.fill();
+
+  // Joyas de la corona
+  ctx.fillStyle = '#e74c3c'; // Rubí central
+  ctx.beginPath(); ctx.arc(0, -32, 2.5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#3498db'; // Zafiro izquierdo
+  ctx.beginPath(); ctx.arc(-9, -30, 1.5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#3498db'; // Zafiro derecho
+  ctx.beginPath(); ctx.arc(9, -30, 1.5, 0, Math.PI*2); ctx.fill();
+
+
+  // Ojos (Almendrados color oro/verde)
   let blink = (time % 250 < 6) ? 0.1 : 1;
   ctx.save();
   ctx.scale(1, blink);
 
   // Ojo Izquierdo
-  ctx.fillStyle = '#ffcc00'; // Dorado brillate
+  ctx.fillStyle = '#ffcc00'; 
   ctx.beginPath();
   ctx.moveTo(-10, -2);
   ctx.quadraticCurveTo(-6, -7, -2, -2);
   ctx.quadraticCurveTo(-6, 3, -10, -2);
   ctx.fill();
-  ctx.fillStyle = '#000'; // Pupila alargada
+  ctx.fillStyle = '#000'; // Pupila
   ctx.beginPath(); ctx.ellipse(-6, -2, 1, 2.5, 0, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#fff'; // Brillo del ojo
+  ctx.fillStyle = '#fff'; // Brillo
   ctx.beginPath(); ctx.arc(-6.5, -3, 0.6, 0, Math.PI*2); ctx.fill();
 
   // Ojo Derecho
@@ -304,7 +330,7 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.beginPath();
   ctx.moveTo(-2, 4); ctx.lineTo(2, 4); ctx.lineTo(0, 6); ctx.fill();
 
-  // Bigotes elegantes (blancos con opacidad)
+  // Bigotes elegantes
   ctx.strokeStyle = 'rgba(255,255,255,0.25)';
   ctx.lineWidth = 0.5;
   ctx.beginPath(); ctx.moveTo(-4, 6); ctx.quadraticCurveTo(-20, 5, -30, 0); ctx.stroke();
@@ -312,8 +338,8 @@ function drawRealisticBlackCat(ctx, x, y, time) {
   ctx.beginPath(); ctx.moveTo(4, 6); ctx.quadraticCurveTo(20, 5, 30, 0); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(4, 7); ctx.quadraticCurveTo(20, 8, 32, 10); ctx.stroke();
 
-  ctx.restore(); // restaura translación de cabeza
-  ctx.restore(); // restaura escala general
+  ctx.restore(); 
+  ctx.restore(); 
 }
 
 // Trazos de la palabra SAMUEL
@@ -352,7 +378,6 @@ function start() {
   cancelAnimationFrame(anim);
   clearTimeout(letterTimeout);
   
-  // Ocultamos la carta al iniciar y limpiamos lienzos
   letterOverlay.classList.remove('show');
   currentStrokeIdx = 0; currentT = 0; timeFrame = 0;
   pCtx.clearRect(0, 0, paint.width, paint.height);
@@ -362,7 +387,7 @@ function start() {
     timeFrame++;
     fCtx.clearRect(0, 0, fg.width, fg.height);
     
-    // Aves
+    // Aves volando
     birds.forEach(b => {
       b.x -= b.speed; if(b.x < -50) b.x = bg.width + 50;
       b.wing += 0.15; let wo = Math.sin(b.wing) * b.size;
@@ -373,8 +398,8 @@ function start() {
       fCtx.stroke();
     });
 
-    // Dibujamos al michi negro sentado en el muro
-    drawRealisticBlackCat(fCtx, fg.width * 0.8, fg.height * 0.55, timeFrame);
+    // DIBUJAMOS AL REY SAMUEL EN EL LADO IZQUIERDO (0.2 de ancho)
+    drawRealisticBlackCat(fCtx, fg.width * 0.2, fg.height * 0.55, timeFrame);
 
     if (currentStrokeIdx < allStrokes.length) {
       let st = allStrokes[currentStrokeIdx];
@@ -385,7 +410,7 @@ function start() {
       magicDust(x, y, r, 6);
       currentT += 0.025;
       
-      // Estrella fugaz de la magia
+      // Magia fugaz
       fCtx.shadowColor = '#ffeb3b'; fCtx.shadowBlur = 15;
       fCtx.fillStyle = '#fff';
       fCtx.beginPath(); fCtx.arc(x, y, 4, 0, Math.PI * 2); fCtx.fill();
@@ -394,7 +419,6 @@ function start() {
       if (currentT > 1) { currentT = 0; currentStrokeIdx++; }
       anim = requestAnimationFrame(loop);
     } else {
-      // Cuando termina, mostramos la carta
       if(!letterOverlay.classList.contains('show')) {
         letterTimeout = setTimeout(() => { letterOverlay.classList.add('show'); }, 1500);
       }
@@ -403,7 +427,6 @@ function start() {
   })();
 }
 
-// Función para el botón "Cerrar" de la carta
 function closeLetter() { 
   letterOverlay.classList.remove('show'); 
 }
